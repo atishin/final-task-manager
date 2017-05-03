@@ -13,7 +13,6 @@ namespace FinalTaskManager.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public ICollection<string> Team { get; set; }
 
         [ForeignKey("Manager")]
         public string ManagerId { get; set; }

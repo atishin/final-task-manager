@@ -17,9 +17,17 @@ namespace FinalTaskManager.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Projects
-        public IQueryable<Project> GetProjects()
+        public IEnumerable<Project> GetProjects()
         {
-            return db.Projects;
+            return db.Projects.ToList().Select(p => new Project() {
+                Id = p.Id,
+                Description = p.Description,
+                ManagerId = p.ManagerId,
+                Manager = null,
+                ProjectChat = null,
+                Tasks = null,
+                Title = p.Title
+            });
         }
 
         // GET: api/Projects/5
