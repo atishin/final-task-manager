@@ -12,6 +12,8 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using FinalTaskManager.Models;
+using Microsoft.AspNet.SignalR;
+using FinalTaskManager.Hubs;
 
 namespace FinalTaskManager.Odata
 {
@@ -85,6 +87,7 @@ namespace FinalTaskManager.Odata
         // POST: odata/Messages
         public IHttpActionResult Post(Message message)
         {
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -92,7 +95,22 @@ namespace FinalTaskManager.Odata
 
             db.Messages.Add(message);
             db.SaveChanges();
-
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            if (hubContext != null)
+            {
+                hubContext.Clients.All.NewMessage(new Message() {
+                    Id = message.Id,
+                    MessageTime = message.MessageTime,
+                    ProjectChat = null,
+                    ProjectChatId = message.ProjectChatId,
+                    Text = message.Text,
+                    User = (message.User != null) ? new ApplicationUser()
+                    {
+                        UserName = message.User.UserName
+                    } : null,
+                    UserId = message.UserId
+                });
+            }
             return Created(message);
         }
 
