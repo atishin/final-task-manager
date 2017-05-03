@@ -32,7 +32,7 @@ namespace FinalTaskManager.Odata
 
         // GET: odata/TaskStatus
         [EnableQuery]
-        public IQueryable<TaskStatus> GetTaskStatus()
+        public IQueryable<TaskStatus> Get()
         {
             return db.TaskStatus;
         }
