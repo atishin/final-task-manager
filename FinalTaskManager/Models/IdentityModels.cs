@@ -47,5 +47,6 @@ namespace FinalTaskManager.Models
         public DbSet<TaskStatus> TaskStatus { get; set; }
 
         public DbSet<Message> Messages { get; set; }
+
     }
 }
